@@ -1,0 +1,121 @@
+.background-container {
+  position: relative; /* Add this to create a containing block for the absolute positioned image */
+  overflow-y: auto; /* Add this to enable scrolling */
+}
+
+/*----- background image ----------*/
+.background-image {
+  position: fixed; /* Fix the background image to the viewport */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: -10; /* Ensure it's behind other elements */
+  background-image: url('/static/png/skyy.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+/*------ Background Bars ------*/
+.backgroundbars {
+    background-image: url('/static/png/bars.png');
+    background-size: 110vw 135vh;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    position: fixed; /* or fixed, depending on your layout */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -3; /* to ensure it's behind other elements */
+    filter: drop-shadow(0 5px 5px);
+
+  }
+  /*--------- Buildings Background -----------*/
+.buildings {
+    background-image: url('/static/png/buildings.png');
+    background-size: cover 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    position: fixed; /* or fixed, depending on your layout */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -4; /* to ensure it's behind other elements */
+    filter: drop-shadow(0 0 15px);
+}
+.lightbuildings {
+  background-image: url('/static/png/lightbuildings.png');
+  background-size: cover 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  position: fixed; /* or fixed, depending on your layout */
+  justify-content: space-between;
+  display: flex;
+  padding: 20px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -4; /* to ensure it's behind other elements */
+  filter: blur(10px); /* Adjust the blur amount for desired intensity */
+  animation: heartbeat 2s ease-in-out infinite; /* Add the animation */
+}
+
+@keyframes heartbeat {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.bar {
+  width: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  margin: 10px;
+  transition: height 0.1s ease-in-out;
+}
+
+.bar:hover {
+  background-color: #ccc;
+}
+.characters {
+  background-image: url('/static/png/skarlet.png');
+  background-size: 55vh 85vh; /* Set width or height, not both */
+  background-repeat: no-repeat;
+  position: fixed; /* Ensures element stays fixed */
+  left: 72%; /* Top left corner */
+  top: 10%;
+  width: 1000px; 
+  height: 1000px;
+  z-index: -4; /* Adjust if needed */
+  filter: drop-shadow(10px 0 20px);
+}
+.Spinvynile {
+  position: fixed; /* Change from absolute to fixed to position relative to the viewport */
+  bottom: -425px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 750px;
+  height: 750px;
+  background-image: url('/static/png/vinyle.png');
+  background-size: cover;
+  border-radius: 50%;
+  animation: spin 6s linear infinite;
+  z-index: -4;
+  filter: drop-shadow(0 0 10px);
+}
+@keyframes spin{
+  0% { transform: translateX(-50%) rotate(0deg); }
+  100% { transform: translateX(-50%) rotate(360deg); }
+}

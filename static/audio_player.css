@@ -1,0 +1,139 @@
+/* Audio Player Styles */
+.audio-player {
+position: fixed;
+  top: 540px;
+  right: 10px;
+  z-index: 1;
+
+  background-color: transparent;
+  font-size: 15px;
+  font-family: 'FridayNight';
+  border: none; 
+  border-radius: 0;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: all ease-in-out 0.7s;
+  align-items: center;
+  color: white;
+  background-color: transparent; /* Add this line */
+  
+  /* Add default state */
+  opacity: 0;
+  transform: translateX(-100%);
+
+  /* Add animation */
+  animation: rightslideIn 0.5s forwards;
+  animation-delay: 0.8s;
+}
+
+@media only screen and (max-width: 1300px) {
+  .audio-player {
+    animation: leftslideOut 0.5s forwards;
+  }
+}
+
+@keyframes rightslideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes leftslideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+  
+.audio-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  border: transparent;
+}
+  .audio-player button {
+    font-family: 'FridayNight';
+    background-color: none; /* neon orange background */
+    text-decoration: none;
+    color:none;
+    padding: 9px 18px;
+    font-size: 16px;
+    border: none;
+    text-transform: uppercase; /* all caps for street style */
+    font-weight: bold;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: transparent; /* Add this line */
+    color: white;
+
+  }
+  
+  .audio-player button:hover {
+    background-color: none; /* lighter orange on hover */
+    transform: scale(1.05); /* slight grow effect on hover */
+  }
+  
+  .audio-player button.play::before {
+    content: "\25B6";
+    font-size: 18px;
+    margin-right: 10px;
+  }
+  
+  .audio-player button.pause::before {
+    content: "\23F8";
+    font-size: 18px;
+    margin-right: 10px;
+  }
+  
+.playlist {
+    max-height: 200px;
+    overflow-y: auto;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid #ccc;
+}
+  
+  .playlist::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .playlist::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 10px;
+  }
+  
+  .playlist::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+  }
+  
+  .playlist li {
+    cursor: pointer;
+    padding: 12px 10px;
+    border-bottom: 1px solid #333;
+    background-color: #222;
+    color: #fff;
+    transition: all 0.2s ease;
+  }
+  
+  .playlist li:hover {
+    background-color: #2a2a2a;
+    padding-left: 15px; /* slight indent on hover */
+  }
+  
+  .playlist li.active {
+    background-color: #cc00ff;
+    color: #fff;
+    font-weight: bold;
+  }
