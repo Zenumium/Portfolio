@@ -1,0 +1,8 @@
+#visualizer {
+    transform: rotate(90deg); /* rotate 90 degrees around the X axis */
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh; /* take up full height of the viewport */
+    z-index: -6;
+}

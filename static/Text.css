@@ -15,12 +15,28 @@
     border-radius: 100%;
     border: none;
     margin-bottom: 0;
+
+    /* Add default state */
+    opacity: 0;
+
+    /* Add animation */
+    animation: fadeIn 1s forwards;
+    animation-delay: 0.6s;
 }
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
 
 .hero span {
     transition: all 0.5s ease-in-out;
     transform-origin: center;
-
     cursor: default;
 }
 
@@ -30,3 +46,111 @@
     transition: all 0.5s ease-in-out; /* add a smooth transition effect */
     cursor: default;
 }
+.Copyright{
+    font-family: 'FridayNight';
+    color: white;
+    height: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.1em;
+    border: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    cursor: default;
+}
+.Skills {
+    font-family: 'FridayNight';
+    color: white;
+    position: absolute;
+    bottom: 90px;
+    text-align: left;
+    font-size: 1.3em;
+    margin-left: 0;
+    cursor: default;
+
+    /* Add default state */
+    opacity: 0;
+    transform: translateX(-100%);
+  
+    /* Add animation */
+    animation: slideIn 0.5s forwards;
+    animation-delay: 0.5s;
+  }
+  
+  @media only screen and (max-width: 1100px) {
+    .Skills {
+      animation: slideOut 0.5s forwards;
+    }
+  }
+  
+  @keyframes slideIn {
+    0% {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes slideOut {
+    0% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+  }
+.MySkills{
+    font-family: 'FridayNight';
+    font-size: 2em;
+    color: white;
+    font-family: 'FridayNight';
+    color: white;
+    position: absolute;
+    bottom: 280px;
+    text-align: left;
+    margin-left: 40px;
+    cursor: default;
+    opacity: 0;
+    transform: translateX(-100%);
+  
+    /* Add animation */
+    animation: slideIn 0.5s forwards;
+    animation-delay: 0.5s;
+  }
+  
+  @media only screen and (max-width: 1100px) {
+    .MySkills {
+      animation: slideOut 0.5s forwards;
+    }
+  }
+  
+  @keyframes slideIn {
+    0% {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes slideOut {
+    0% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+  }
