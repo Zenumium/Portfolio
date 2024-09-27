@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/Text.css">
+    <link rel="shortcut icon" href="/static/png/vinyle.png">
+    <link rel="stylesheet" href="/static/button_func.css">
+    <link rel="stylesheet" href="/static/audio_player.css">
+    <link rel="stylesheet" href="/static/Visualizer.css">
+    <audio id="clickSound" src="/static/sound/click.ogg" preload="auto"></audio>
+    <audio id="box" src="/static/sound/click.ogg" preload="auto"></audio>
+    <script src="/static/JS/script.js"></script>
+    <title>Portfolio</title>
+</head>
+<body>
+    <div class="hero">
+        <span>Welcome to my Portfolio</span>
+    </div>
+    <div class="background-image"></div>
+    <div class="arrows"></div>
+    <div class="backgroundbars"></div>
+    <div class="buildings"></div>
+    <div class="lightbuildings"></div>
+    <div class="Spinvynile"></div>
+    <div class="Jukebox"></div>
+    
+    <button type="button" class="search" onclick="PlaySound();">
+        <a href="http://localhost:8080/search" alt="Go_Back"></a>
+        Search
+    </button>
+    <button type="button" class="Jukebox" onclick="location.href='http://localhost:8080/Jukebox';">
+        <a href="http://localhost:8080/Jukebox" alt="audio"></a>
+        Work
+    </button>
+    <button type="button" class="about" onclick="location.href='http://localhost:8080/About';">
+        <a href="http://localhost:8080/About" alt="audio"></a>
+        About
+    </button>
+
+    <!-- Audio Player -->
+    <canvas id="visualizer" width="800" height="800"></canvas>
+    <div class="audio-player">
+        <audio id="audio" src=""></audio>
+        <div class="audio-controls">
+            <button id="prevBtn">Previous</button>
+            <button id="playPauseBtn">Play</button>
+            <button id="nextBtn">Next</button>
+        </div>
+        <div>
+            <input type="range" id="seekBar" value="0" step="1" style="width: 100%;">
+            <span id="currentTime">0:00</span> / <span id="duration">0:00</span>
+        </div>
+        <div>
+            <input type="range" id="volumeBar" min="0" max="1" step="0.1" value="1" style="width: 100%;">
+        </div>
+        <h3>Playlist</h3>
+        <ul id="playlist" class="playlist">
+            <li data-src="/static/sound/playlist/RETRIBUTION.mp3">RETRIBUTION</li>
+            <li data-src="/static/sound/playlist/Freakpunk.mp3">Freakpunk</li>
+            <li data-src="/static/sound/playlist/Teminite & Skybreak - Accelerate.mp3">Teminite & Skybreak - Accelerate</li>
+            <li data-src="/static/sound/playlist/Jungle.mp3">Jungle</li>
+            <li data-src="/static/sound/playlist/FNF Vs. Moon Rat - Rat.mp3">FNF Vs. Moon Rat - Rat</li>
+            <li data-src="/static/sound/playlist/Foolhardy FNF (Drill Remix).mp3">Foolhardy FNF (Drill Remix)</li>
+            <li data-src="/static/sound/playlist/Geoxor - True Colors.mp3">Geoxor-True Colors</li>
+            <li data-src="/static/sound/playlist/Geoxor - Apathy.mp3">Geoxor-Apathy</li>
+            <li data-src="/static/sound/playlist/Sickick - Official SickMix Part 3.mp3">SickMix Part 3</li>
+        </ul>
+    </div>
+    <script>
+        const audio = document.getElementById('audio');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const seekBar = document.getElementById('seekBar');
+        const volumeBar = document.getElementById('volumeBar');
+        const currentTimeSpan = document.getElementById('currentTime');
+        const durationSpan = document.getElementById('duration');
+        const playlist = document.getElementById('playlist');
+        const songs = playlist.getElementsByTagName('li');
+        let currentSong = 0;
+    
+        // Get the canvas element
+        const canvas = document.getElementById('visualizer');
+        const ctx = canvas.getContext('2d');
+    
+        // Create a Web Audio API context
+        const audioContext = new AudioContext();
+        const analyser = audioContext.createAnalyser();
+        const source = audioContext.createMediaElementSource(audio);
+    
+        // Connect the audio source to the analyser
+        source.connect(analyser);
+        analyser.connect(audioContext.destination);
+    
+        // Set up the analyser to produce frequency data
+        analyser.fftSize = 256;
+    
+        // Create a Uint8Array to store the frequency data
+        const frequencyData = new Uint8Array(analyser.frequencyBinCount);
+    
+        function loadSong(index) {
+            const song = songs[index];
+            audio.src = song.getAttribute('data-src');
+            audio.load();
+            setActiveSong(index);
+        }
+    
+        function setActiveSong(index) {
+            for (let i = 0; i < songs.length; i++) {
+                songs[i].classList.remove('active');
+            }
+            songs[index].classList.add('active');
+        }
+    
+        function playPause() {
+            if (audio.paused) {
+                audio.play();
+                playPauseBtn.textContent = 'Pause';
+            } else {
+                audio.pause();
+                playPauseBtn.textContent = 'Play';
+            }
+        }
+    
+        function nextSong() {
+            currentSong = (currentSong + 1) % songs.length;
+            loadSong(currentSong);
+            playPause();
+        }
+    
+        function prevSong() {
+            currentSong = (currentSong - 1 + songs.length) % songs.length;
+            loadSong(currentSong);
+            playPause();
+        }
+    
+        function updateSeekBar() {
+            seekBar.value = audio.currentTime;
+            currentTimeSpan.textContent = formatTime(audio.currentTime);
+        }
+    
+        function formatTime(time) {
+            const minutes = Math.floor(time / 60);
+            const seconds = Math.floor(time % 60);
+            return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+    
+        // Function to draw the visualizer
+        function drawVisualizer() {
+            // Get the current frequency data
+            analyser.getByteFrequencyData(frequencyData);
+    
+            // Clear the canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+            // Create a gradient
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+            gradient.addColorStop(0, 'red');
+            gradient.addColorStop(1, 'blue');
+    
+            // Draw the frequency data as a waveform
+            ctx.beginPath();
+            ctx.moveTo(0, canvas.height / 1);
+            for (let i = 0; i < frequencyData.length; i++) {
+                const x = i * canvas.width / frequencyData.length;
+                const y = canvas.height / 1 - frequencyData[i] * canvas.height / 256;
+                ctx.lineTo(x, y);
+            }
+            ctx.strokeStyle = gradient;
+            ctx.lineWidth = 5;
+            ctx.stroke();
+    
+            // Request the next frame
+            requestAnimationFrame(drawVisualizer);
+        }
+    
+        // Event Listeners
+        playPauseBtn.addEventListener('click', playPause);
+        prevBtn.addEventListener('click', prevSong);
+        nextBtn.addEventListener('click', nextSong);
+        audio.addEventListener('timeupdate', updateSeekBar);
+        audio.addEventListener('loadedmetadata', () => {
+            seekBar.max = audio.duration;
+            durationSpan.textContent = formatTime(audio.duration);
+        });
+        audio.addEventListener('ended', nextSong);
+        seekBar.addEventListener('change', () => {
+            audio.currentTime = seekBar.value;
+        });
+        volumeBar.addEventListener('change', () => {
+            audio.volume = volumeBar.value;
+        });
+        playlist.addEventListener('click', (e) => {
+            if (e.target.tagName === 'LI') {
+                currentSong = Array.from(songs).indexOf(e.target);
+                loadSong(currentSong);
+                playPause();
+            }
+        });
+    
+        // Start drawing the visualizer
+        drawVisualizer();
+    
+        // Initialize
+        loadSong(currentSong);
+    </script>
+    <div class="MySkills">
+        <span>My Skills :</span>
+    </div>
+    <div class="Skills">
+    <ol>
+        1. HTML5, CSS3, Golang
+        <br>
+        <br>
+        2. Blender, Photoshop, Adobe Software
+        <br>
+        <br>
+        3. 
+    </ol>
+    </div>
+    <div class="Copyright">
+        <p>&copy; 2024 My Portfolio. All rights reserved.</p>
+    </div>
+</body>
+</html>
