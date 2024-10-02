@@ -1,63 +1,6 @@
-.search {
-  position: fixed;
-  top: 345px;
-  right: 10px;
-  z-index: 1;
-
-  background-color: transparent;
-  font-size: 45px;
-  font-family: 'FridayNight';
-  border: none; 
-  border-radius: 0;
-  margin-top: 10px;
-  cursor: pointer;
-  transition: all ease-in-out 0.7s;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: white;
-  -webkit-text-stroke: 1.5px black;
-  text-shadow: 0 0px 5px rgb(162, 0, 255);
-  
-  /* Add default state */
-  opacity: 0;
-  transform: translateX(-100%);
-
-  /* Add animation */
-  animation: rightslideIn 0.5s forwards;
-  animation-delay: 0.8s;
-}
-
-@media only screen and (max-width: 1300px) {
-  .search {
-    animation: leftslideOut 0.5s forwards;
-  }
-}
-
-@keyframes rightslideIn {
-  0% {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes leftslideOut {
-  from {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-}
-.Jukebox {
-  position: fixed;
-  top: 410px;
+.GitHub {
+  position: absolute;
+  top: 30px;
   right: 10px;
   z-index: 1;
 
@@ -69,9 +12,6 @@
   margin-top: 10px;
   cursor: pointer;
   transition: all ease-in-out 0.7s;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   color: white;
   -webkit-text-stroke: 1.5px black;
   text-shadow: 0 0px 5px rgb(162, 0, 255);
@@ -85,8 +25,8 @@
   animation-delay: 0.8s;
 }
 
-@media only screen and (max-width: 1300px) {
-  .Jukebox {
+@media only screen and (max-width: 900px) {
+.GitHub{
     animation: leftslideOut 0.5s forwards;
   }
 }
@@ -112,23 +52,20 @@
     transform: translateX(100%);
   }
 }
-.about {
-  position: fixed;
-  top: 490px;
+.LinkeIn {
+  position: absolute;
+  top: 120px;
   right: 10px;
   z-index: 1;
 
   background-color: transparent;
-  font-size: 35px;
+  font-size: 45px;
   font-family: 'FridayNight';
   border: none; 
   border-radius: 0;
   margin-top: 10px;
   cursor: pointer;
   transition: all ease-in-out 0.7s;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   color: white;
   -webkit-text-stroke: 1.5px black;
   text-shadow: 0 0px 5px rgb(162, 0, 255);
@@ -142,8 +79,8 @@
   animation-delay: 0.8s;
 }
 
-@media only screen and (max-width: 1300px) {
-  .about {
+@media only screen and (max-width: 900px) {
+.LinkeIn{
     animation: leftslideOut 0.5s forwards;
   }
 }
@@ -168,13 +105,4 @@
     opacity: 0;
     transform: translateX(100%);
   }
-}
-.about:hover{
-  color: rgb(247, 0, 255);
-}
-.Jukebox:hover{
-  color: rgb(247, 0, 255);
-}
-.search:hover{
-  color: rgb(247, 0, 255);
 }

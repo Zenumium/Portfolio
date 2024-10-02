@@ -2,19 +2,20 @@
     font-family: 'FridayNight';
     src: url('/static/font/FridayNight.ttf') format('truetype');
 }
-
+body{
+  overflow: hidden;
+}
 .hero {
     font-family: 'FridayNight';
     /* existing styles */
     height: 90px;
     display: flex;
     justify-content: center;
-    align-items: center;
     color: white;
     font-size: 2.7em;
-    border-radius: 100%;
     border: none;
     margin-bottom: 0;
+    transform: skew(-15deg, 0deg);
 
     /* Add default state */
     opacity: 0;
@@ -36,41 +37,52 @@
 
 .hero span {
     transition: all 0.5s ease-in-out;
-    transform-origin: center;
     cursor: default;
 }
 
 .hero span:hover {
     color: blueviolet;
-    transform: translateY(-5px); /* move the text up by 5px on hover */
+    transform: translateX(5px); /* move the text up by 5px on hover */
     transition: all 0.5s ease-in-out; /* add a smooth transition effect */
     cursor: default;
 }
 .Copyright{
     font-family: 'FridayNight';
     color: white;
-    height: 90px;
+    height: 65px;
     display: flex;
     justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 1.1em;
+    font-size: 1.2em;
     border: none;
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
     cursor: default;
+    opacity: 0;
+    transform: skew(-10deg, 0deg);
+
+    animation: fadeIn 1s forwards;
+    animation-delay: 1s;
+}
+
+@keyframes fadeIn {
+0% {
+    opacity: 0;
+}
+100% {
+    opacity: 1;
+}
 }
 .Skills {
     font-family: 'FridayNight';
     color: white;
-    position: absolute;
-    bottom: 90px;
-    text-align: left;
+    position: fixed;
     font-size: 1.3em;
-    margin-left: 0;
     cursor: default;
+    margin-left: 20px;
+    left: 0;
+    margin-top: 350px ;
 
     /* Add default state */
     opacity: 0;
@@ -81,7 +93,7 @@
     animation-delay: 0.5s;
   }
   
-  @media only screen and (max-width: 1100px) {
+  @media only screen and (max-width: 800px) {
     .Skills {
       animation: slideOut 0.5s forwards;
     }
@@ -108,27 +120,21 @@
       transform: translateX(-100%);
     }
   }
-.MySkills{
-    font-family: 'FridayNight';
-    font-size: 2em;
-    color: white;
+.Name {
     font-family: 'FridayNight';
     color: white;
-    position: absolute;
-    bottom: 280px;
-    text-align: left;
-    margin-left: 40px;
     cursor: default;
-    opacity: 0;
-    transform: translateX(-100%);
-  
-    /* Add animation */
+    position: absolute;
+    margin-top: 20px;
+    top: 80px;
+    
     animation: slideIn 0.5s forwards;
     animation-delay: 0.5s;
+    transform: translateX(-100%);
   }
   
-  @media only screen and (max-width: 1100px) {
-    .MySkills {
+  @media only screen and (max-width: 800px) {
+    .Name {
       animation: slideOut 0.5s forwards;
     }
   }
@@ -154,3 +160,13 @@
       transform: translateX(-100%);
     }
   }
+.Name h1{
+  color : rgb(255, 255, 255);
+  font-size: 2.5em;
+  transform: skew(-10deg, 0deg);
+}
+.Name h3{
+  color : rgb(253, 253, 253);
+  font-size: 1.5em;
+  transform: skew(-10deg, 0deg);
+}

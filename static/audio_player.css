@@ -1,7 +1,7 @@
 /* Audio Player Styles */
 .audio-player {
-position: fixed;
-  top: 540px;
+  position: fixed;
+  bottom: 0;
   right: 10px;
   z-index: 1;
 
@@ -60,7 +60,7 @@ position: fixed;
   margin-bottom: 15px;
   border: transparent;
 }
-  .audio-player button {
+.audio-player button {
     font-family: 'FridayNight';
     background-color: none; /* neon orange background */
     text-decoration: none;
@@ -75,8 +75,9 @@ position: fixed;
     transition: all 0.3s ease;
     background-color: transparent; /* Add this line */
     color: white;
+    transform: skew(-10deg, 0deg);
 
-  }
+}
   
   .audio-player button:hover {
     background-color: none; /* lighter orange on hover */
@@ -103,6 +104,7 @@ position: fixed;
     padding: 0;
     margin: 0;
     border: 1px solid #ccc;
+    
 }
   
   .playlist::-webkit-scrollbar {
@@ -135,8 +137,15 @@ position: fixed;
   
   .playlist li.active {
     background: rgb(255,0,0);
-    background: linear-gradient(0.25turn, #ff0000, #ee44e0, #ff00ea);
+    background: linear-gradient(0.25turn, #c70202, #c003b0, #8a027e);
     color: #fff;
     font-weight: bold;
+    transform: skew(-10deg, 0deg);
   }
-  
+  #seekBar, #volumeBar {
+    width: 100%;
+    height: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    transform: skew(-10deg, 0deg);
+}
