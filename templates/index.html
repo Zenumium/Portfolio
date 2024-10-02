@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/style.css">
     <link rel="stylesheet" href="/static/Text.css">
-    <link rel="shortcut icon" href="/static/png/vinyle.png">
+    <link rel="shortcut icon" href="/static/png/vinyle.png"> <!--Favicon-->
     <link rel="stylesheet" href="/static/button_func.css">
     <link rel="stylesheet" href="/static/audio_player.css">
     <link rel="stylesheet" href="/static/Visualizer.css">
     <audio id="clickSound" src="/static/sound/click.ogg" preload="auto"></audio>
-    <audio id="box" src="/static/sound/click.ogg" preload="auto"></audio>
+    <!--Font Awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
     <script src="/static/JS/script.js"></script>
     <title>Portfolio</title>
 </head>
@@ -19,28 +21,24 @@
         <span>Welcome to my Portfolio</span>
     </div>
     <div class="background-image"></div>
+    <div class="sun"></div>
+    <div class="cloud"></div>
     <div class="arrows"></div>
     <div class="backgroundbars"></div>
     <div class="buildings"></div>
     <div class="lightbuildings"></div>
     <div class="Spinvynile"></div>
     <div class="Jukebox"></div>
-    
-    <button type="button" class="search" onclick="PlaySound();">
-        <a href="http://localhost:8080/search" alt="Go_Back"></a>
-        Search
-    </button>
-    <button type="button" class="Jukebox" onclick="location.href='http://localhost:8080/Jukebox';">
-        <a href="http://localhost:8080/Jukebox" alt="audio"></a>
-        Work
-    </button>
-    <button type="button" class="about" onclick="location.href='http://localhost:8080/About';">
-        <a href="http://localhost:8080/About" alt="audio"></a>
-        About
-    </button>
+<section>
+    <div class="Name">
+        <h1>Valentyn Louvier</h1>
+        <h3>Full Stack Developer</h3>
+    </div>
+</section>
+
 
     <!-- Audio Player -->
-    <canvas id="visualizer" width="800" height="800"></canvas>
+   <canvas id="visualizer" width="800px" height="800px"></canvas>
     <div class="audio-player">
         <audio id="audio" src=""></audio>
         <div class="audio-controls">
@@ -59,13 +57,18 @@
         <ul id="playlist" class="playlist">
             <li data-src="/static/sound/playlist/RETRIBUTION.mp3">RETRIBUTION</li>
             <li data-src="/static/sound/playlist/Freakpunk.mp3">Freakpunk</li>
-            <li data-src="/static/sound/playlist/Teminite & Skybreak - Accelerate.mp3">Teminite & Skybreak - Accelerate</li>
+            <li data-src="/static/sound/playlist/Teminite & Skybreak - Accelerate.mp3">Teminite and Skybreak - Accelerate</li>
+            <li data-src="/static/sound/playlist/Collini x Oliver Cheatham Vs Mike Chenery - Get Down Saturday Night [Club House Party Starter Edit].mp3">Get Down Saturday Night</li>
             <li data-src="/static/sound/playlist/Jungle.mp3">Jungle</li>
             <li data-src="/static/sound/playlist/FNF Vs. Moon Rat - Rat.mp3">FNF Vs. Moon Rat - Rat</li>
             <li data-src="/static/sound/playlist/Foolhardy FNF (Drill Remix).mp3">Foolhardy FNF (Drill Remix)</li>
             <li data-src="/static/sound/playlist/Geoxor - True Colors.mp3">Geoxor-True Colors</li>
             <li data-src="/static/sound/playlist/Geoxor - Apathy.mp3">Geoxor-Apathy</li>
             <li data-src="/static/sound/playlist/Sickick - Official SickMix Part 3.mp3">SickMix Part 3</li>
+            <li data-src="/static/sound/playlist/MASHLE OPENING THEME.mp3">MASHLE OPENING THEME</li>
+            <li data-src="/static/sound/playlist/SpongeBob SquarePants Production Music - Stadium Rave A.mp3">Stadium Rave A</li>
+            <li data-src="/static/sound/playlist/Slynk - Lets Make It Funky.mp3">Slynk - Lets Make It Funky</li>
+            <li data-src="/static/sound/playlist/Delta Heavy - Get Down Tonight (ft. Hayley May).mp3">Delta Heavy - Get Down Tonight</li>
         </ul>
     </div>
     <script>
@@ -80,102 +83,104 @@
         const playlist = document.getElementById('playlist');
         const songs = playlist.getElementsByTagName('li');
         let currentSong = 0;
-    
+        let audioContext;
+        let analyser;
+        let source;
+        let frequencyData;
+        
         // Get the canvas element
         const canvas = document.getElementById('visualizer');
         const ctx = canvas.getContext('2d');
-    
-        // Create a Web Audio API context
-        const audioContext = new AudioContext();
-        const analyser = audioContext.createAnalyser();
-        const source = audioContext.createMediaElementSource(audio);
-    
-        // Connect the audio source to the analyser
-        source.connect(analyser);
-        analyser.connect(audioContext.destination);
-    
-        // Set up the analyser to produce frequency data
-        analyser.fftSize = 256;
-    
-        // Create a Uint8Array to store the frequency data
-        const frequencyData = new Uint8Array(analyser.frequencyBinCount);
-    
+        
         function loadSong(index) {
             const song = songs[index];
             audio.src = song.getAttribute('data-src');
             audio.load();
             setActiveSong(index);
         }
-    
+        
         function setActiveSong(index) {
             for (let i = 0; i < songs.length; i++) {
                 songs[i].classList.remove('active');
             }
             songs[index].classList.add('active');
         }
-    
+        
         function playPause() {
             if (audio.paused) {
                 audio.play();
                 playPauseBtn.textContent = 'Pause';
+                // Create the AudioContext and set up the audio graph
+                if (!audioContext) {
+                    audioContext = new AudioContext();
+                    analyser = audioContext.createAnalyser();
+                    source = audioContext.createMediaElementSource(audio);
+                    source.connect(analyser);
+                    analyser.connect(audioContext.destination);
+                    analyser.fftSize = 256;
+                    frequencyData = new Uint8Array(analyser.frequencyBinCount);
+                }
+                drawVisualizer();
             } else {
                 audio.pause();
                 playPauseBtn.textContent = 'Play';
             }
         }
-    
+        
         function nextSong() {
             currentSong = (currentSong + 1) % songs.length;
             loadSong(currentSong);
             playPause();
         }
-    
+        
         function prevSong() {
             currentSong = (currentSong - 1 + songs.length) % songs.length;
             loadSong(currentSong);
             playPause();
         }
-    
+        
         function updateSeekBar() {
             seekBar.value = audio.currentTime;
             currentTimeSpan.textContent = formatTime(audio.currentTime);
         }
-    
+        
         function formatTime(time) {
             const minutes = Math.floor(time / 60);
             const seconds = Math.floor(time % 60);
             return `${minutes}:${seconds.toString().padStart(2, '0')}`;
         }
-    
+        
         // Function to draw the visualizer
         function drawVisualizer() {
             // Get the current frequency data
-            analyser.getByteFrequencyData(frequencyData);
-    
-            // Clear the canvas
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-            // Create a gradient
-            const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
-            gradient.addColorStop(0, 'red');
-            gradient.addColorStop(1, 'blue');
-    
-            // Draw the frequency data as a waveform
-            ctx.beginPath();
-            ctx.moveTo(0, canvas.height / 1);
-            for (let i = 0; i < frequencyData.length; i++) {
-                const x = i * canvas.width / frequencyData.length;
-                const y = canvas.height / 1 - frequencyData[i] * canvas.height / 256;
-                ctx.lineTo(x, y);
+            if (analyser) {
+                analyser.getByteFrequencyData(frequencyData);
+        
+                // Clear the canvas
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+                // Create a gradient
+                const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+                gradient.addColorStop(0, 'red');
+                gradient.addColorStop(1, 'blue');
+        
+                // Draw the frequency data as a waveform
+                ctx.beginPath();
+                ctx.moveTo(0, canvas.height / 1);
+                for (let i = 0; i < frequencyData.length; i++) {
+                    const x = i * canvas.width / frequencyData.length;
+                    const y = canvas.height / 1 - frequencyData[i] * canvas.height / 256;
+                    ctx.lineTo(x, y);
+                }
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = 3;
+                ctx.stroke();
+        
+                // Request the next frame
+                requestAnimationFrame(drawVisualizer);
             }
-            ctx.strokeStyle = gradient;
-            ctx.lineWidth = 5;
-            ctx.stroke();
-    
-            // Request the next frame
-            requestAnimationFrame(drawVisualizer);
         }
-    
+        
         // Event Listeners
         playPauseBtn.addEventListener('click', playPause);
         prevBtn.addEventListener('click', prevSong);
@@ -191,6 +196,7 @@
         });
         volumeBar.addEventListener('change', () => {
             audio.volume = volumeBar.value;
+            localStorage.setItem('volume', volumeBar.value); // Store the volume value in local storage
         });
         playlist.addEventListener('click', (e) => {
             if (e.target.tagName === 'LI') {
@@ -199,26 +205,34 @@
                 playPause();
             }
         });
-    
-        // Start drawing the visualizer
-        drawVisualizer();
-    
+        
+        // Get the volume value from local storage
+        const storedVolume = localStorage.getItem('volume');
+        if (storedVolume) {
+            volumeBar.value = storedVolume;
+            audio.volume = storedVolume;
+        }
+        
         // Initialize
         loadSong(currentSong);
     </script>
-    <div class="MySkills">
-        <span>My Skills :</span>
-    </div>
     <div class="Skills">
-    <ol>
-        1. HTML5, CSS3, Golang
+        1. HTML5, CSS3, Golang, Javascript
         <br>
         <br>
         2. Blender, Photoshop, Adobe Software
         <br>
         <br>
-        3. 
+        
     </ol>
+    </div>
+    <div class="contact">
+    <button type="button" class="GitHub" onclick="location.href='https://github.com/Zenumium';">
+        <a href="#"><i class="fab fa-github"></i></a>
+    </button>
+    <button type="button" class="LinkeIn" onclick="location.href='https://www.linkedin.com/in/zenumium/';">
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+    </button>
     </div>
     <div class="Copyright">
         <p>&copy; 2024 My Portfolio. All rights reserved.</p>
